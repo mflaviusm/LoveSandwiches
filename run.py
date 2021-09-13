@@ -31,6 +31,7 @@ def validate_data(values):
     Check for the correct formatting being inserted by the user and raise error if not
     """
     try:
+        [int(value) for value in values]
         if len(values) != 6:
             raise ValueError(
                 f'Exactly 6 value required, you provided {len(values)}'
