@@ -26,7 +26,7 @@ def get_sales_data():
         print('Example: 10,20,30,40,50,60\n')
 
         data_str = input('Enter your data here: ')
-        
+
         sales_data = data_str.split(',')
 
         if validate_data(sales_data):
@@ -38,7 +38,8 @@ def get_sales_data():
 
 def validate_data(values):
     """
-    Check for the correct formatting being inserted by the user and raise error if not
+    Check for the correct formatting being inserted
+     by the user and raise error if not
     """
     try:
         [int(value) for value in values]
@@ -51,6 +52,7 @@ def validate_data(values):
         return False
 
     return True
+
 
 def update_sales_worksheet(data):
     """
@@ -69,7 +71,14 @@ def calculate_surplus_data(sales_row):
     print('Calculating surplus data...\n')
     stock = SHEET.worksheet('stock').get_all_values()
     stock_row = stock[-1]
-    print(stock_row)
+
+    surplus_data = []
+    for stock, sales in zip(stock_row, sales_row):
+        surplus = int(stock) - sales
+        surplus_data.append(surplus)
+
+    return surplus_data
+
 
 def main():
     """
@@ -78,10 +87,7 @@ def main():
     data = get_sales_data()
     sales_data = [int(num) for num in data]
     update_sales_worksheet(sales_data)
-    calculate_surplus_data(sales_data)
-
-
-
+    new_surplus_data = calculate_surplus_data(sales_data)
 
 
 print('Welcome to Love Sandwiches Data Automation')
